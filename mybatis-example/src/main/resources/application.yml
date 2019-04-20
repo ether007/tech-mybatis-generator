@@ -1,0 +1,15 @@
+spring:
+  resources:
+    staticLocations: classpath:/static/, classpath:/assets/   #ResourceProperties.java
+  datasource:
+    url: jdbc:mysql://127.0.0.1:13306/mybatis-showcase?useUnicode=true&characterEncoding=UTF-8&&useSSL=false
+    username: root
+    password: toor
+    driverClassName: com.mysql.jdbc.Driver
+
+
+logging:
+  level:
+    root: INFO
+    vip:
+      corejava: DEBUG

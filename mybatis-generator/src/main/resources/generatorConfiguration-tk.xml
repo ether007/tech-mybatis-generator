@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+
+<generatorConfiguration>
+    <!--MyBatis3Simple,MyBatis3DynamicSql,MyBatis3-->
+    <context id="AceContext" targetRuntime="MyBatis3Simple" defaultModelType="conditional">
+
+        <plugin type="org.mybatis.generator.plugins.SerializablePlugin"/>
+
+        <!--Mapper-->
+        <plugin type="tk.mybatis.mapper.generator.MapperPlugin">
+            <property name="mappers" value="tk.mybatis.mapper.common.Mapper"/>
+            <property name="caseSensitive" value="true"/>
+            <property name="forceAnnotation" value="true"/>
+            <property name="beginningDelimiter" value="`"/>
+            <property name="endingDelimiter" value="`"/>
+            <property name="lombok" value="Data,Accessors"/>
+            <property name="generateColumnConsts" value="false"/>
+        </plugin>
+
+        <!--Service Interface-->
+        <plugin type="tk.mybatis.mapper.generator.TemplateFilePlugin">
+            <property name="targetProject" value="${service.Project}"/>
+            <property name="targetPackage" value="${service.Package}"/>
+            <property name="templatePath" value="generator/service.ftl"/>
+            <property name="serviceSuffix" value="Service"/>
+            <property name="fileName" value="${tableClass.shortClassName}${serviceSuffix}.java"/>
+            <property name="author" value="${author}"/>
+        </plugin>
+
+        <!--Service Implate-->
+        <plugin type="tk.mybatis.mapper.generator.TemplateFilePlugin">
+            <property name="targetProject" value="${serviceImpl.Project}"/>
+            <property name="targetPackage" value="${serviceImpl.Package}"/>
+            <property name="templatePath" value="generator/serviceImpl.ftl"/>
+
+            <property name="serviceSuffix" value="Service"/>
+            <property name="servicePackage" value="${service.Package}"/>
+
+            <property name="mapperSuffix" value="Mapper"/>
+            <property name="mapperPackage" value="${mapper.Package}"/>
+
+            <property name="serviceImplSuffix" value="ServiceImpl"/>
+            <property name="fileName" value="${tableClass.shortClassName}${serviceImplSuffix}.java"/>
+            <property name="author" value="${author}"/>
+        </plugin>
+
+        <!--Controller-->
+        <plugin type="tk.mybatis.mapper.generator.TemplateFilePlugin">
+            <property name="targetProject" value="${controller.Project}"/>
+            <property name="targetPackage" value="${controller.Package}"/>
+            <property name="controllerSuffix" value="Controller"/>
+            <property name="templatePath" value="generator/controller.ftl"/>
+
+
+
+            <property name="serviceSuffix" value="Service"/>
+            <property name="servicerPackage" value="${service.Package}"/>
+
+            <property name="fileName" value="${tableClass.shortClassName}${controllerSuffix}.java"/>
+            <property name="author" value="${author}"/>
+        </plugin>
+
+        <commentGenerator>
+            <property name="suppressDate" value="false"/>
+            <property name="suppressAllComments" value="true"/>
+        </commentGenerator>
+
+
+        <jdbcConnection driverClass="${jdbc.driver}"
+                        connectionURL="${jdbc.url}"
+                        userId="${jdbc.user}"
+                        password="${jdbc.password}">
+        </jdbcConnection>
+
+
+        <javaTypeResolver>
+            <property name="forceBigDecimals" value="false"/>
+            <property name="useJSR310Types" value="true"/>
+        </javaTypeResolver>
+
+
+        <!--entity-->
+        <javaModelGenerator targetProject="${entity.Project}"
+                            targetPackage="${entity.Package}">
+            <property name="enableSubPackages" value="true"/>
+            <property name="trimStrings" value="true"/>
+        </javaModelGenerator>
+
+        <!--Mapper,xml-->
+        <sqlMapGenerator targetProject="${mapperXml.Project}"
+                         targetPackage="${mapperXml.Package}"/>
+
+        <!--Mapper-->
+        <javaClientGenerator  targetProject="${mapper.Project}"
+                              targetPackage="${mapper.Package}"
+                             type="XMLMAPPER"/>
+
+
+        <table tableName="null_null" domainObjectName="null_null">
+            <generatedKey column="id" sqlStatement="JDBC" identity="true"/>
+        </table>
+
+    </context>
+</generatorConfiguration>
